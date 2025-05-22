@@ -7,19 +7,34 @@
             function search()
             {
                 var searchBar = document.getElementById("searchBar");
-                var results = document.getElementById("results");
                 if (searchBar.value in db)
                 {
-                    for (let [lemma, count] of Object.entries(db[searchBar.value]).sort((a, b) => b[1] - a[1]))
+                    window.location.hash = searchBar.value;
+                }
+            }
+
+            window.onhashchange = (function(){
+                var searchBar = document.getElementById("searchBar");
+                var results = document.getElementById("results");
+                let hash = decodeURIComponent(window.location.hash.slice(1));
+                console.log(hash);
+                if (hash in db)
+                {
+                    searchBar.value = hash;
+                    results.innerHTML = '';
+                    for (let [lemma, count] of Object.entries(db[hash]).sort((a, b) => b[1] - a[1]))
                     {
                         results.innerHTML = results.innerHTML.concat('<br />' + lemma + ' ' + '[' + count + ']');
                     }
                 }
-            }
+            });
         </script>
     </head>
     <body>
         <input type="text" id="searchBar" oninput="search();" />
         <div id="results"></div>
+        <script>
+            window.onhashchange();
+        </script>
     </body>
 </html>
