@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Greek-Hebrew Index to Delitzsch</title>
+        <script src="db.js"></script>
+        <script>
+            function search()
+            {
+                var searchBar = document.getElementById("searchBar");
+                var results = document.getElementById("results");
+                if (searchBar.value in db)
+                {
+                    for (let [lemma, count] of Object.entries(db[searchBar.value]).sort((a, b) => b[1] - a[1]))
+                    {
+                        results.innerHTML = results.innerHTML.concat('<br />' + lemma + ' ' + '[' + count + ']');
+                    }
+                }
+            }
+        </script>
+    </head>
+    <body>
+        <input type="text" id="searchBar" oninput="search();" />
+        <div id="results"></div>
+    </body>
+</html>
